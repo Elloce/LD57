@@ -5,13 +5,13 @@ extends RayCast3D
 var obj
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var collider = self.get_collider()
 	if collider:
-		#print(collider)
+		print(collider)
 		if collider as ResourcePile:
 			obj = collider
-			if Input.is_action_pressed("action"):
+			if Input.is_action_pressed("m1"):
 				(collider as ResourcePile).do_action()
 			else:
 				obj.do_action(false)

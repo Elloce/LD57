@@ -1,17 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://ptfwaumj5j5t"]
+[gd_scene load_steps=4 format=3 uid="uid://ptfwaumj5j5t"]
 
 [ext_resource type="Script" path="res://script/item.gd" id="1_6b0fk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8wyd6"]
+albedo_color = Color(0.171398, 0.171398, 0.171398, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t66mx"]
 size = Vector3(0.164307, 0.126709, 0.43457)
 
 [node name="RigidBody3D" type="RigidBody3D"]
-freeze = true
+gravity_scale = 0.5
 continuous_cd = true
 script = ExtResource("1_6b0fk")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 size = Vector3(0.2, 0.145508, 0.515625)
+material = SubResource("StandardMaterial3D_8wyd6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_t66mx")

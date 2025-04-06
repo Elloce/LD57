@@ -1,13 +1,14 @@
-[gd_scene load_steps=50 format=3 uid="uid://bthaby2mladi3"]
+[gd_scene load_steps=57 format=3 uid="uid://bthaby2mladi3"]
 
 [ext_resource type="Script" path="res://script/character_body_3d.gd" id="1_6cigd"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_t7i6o"]
+[ext_resource type="PackedScene" uid="uid://b6673pky7ahbj" path="res://map.tscn" id="2_sjrqg"]
 [ext_resource type="Script" path="res://script/ray_cast_3d.gd" id="3_4nc0y"]
 [ext_resource type="Script" path="res://script/resource_pile.gd" id="3_gv1ur"]
-[ext_resource type="PackedScene" uid="uid://bqdt0spt5r7e7" path="res://lever.tscn" id="4_f864p"]
 [ext_resource type="PackedScene" uid="uid://ptfwaumj5j5t" path="res://item.tscn" id="4_q3dbg"]
 [ext_resource type="Script" path="res://script/furnace.gd" id="4_xxfmu"]
 [ext_resource type="Script" path="res://script/area_placer.gd" id="6_vvjpg"]
+[ext_resource type="PackedScene" uid="uid://ktc2h6ti7747" path="res://door.tscn" id="9_dqqgt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1pfqr"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -23,15 +24,17 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u3pod"]
-radius = 0.29117
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kv0bm"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5g1pl"]
-emission_shape_scale = Vector3(0.53, 0.265, 0.26)
+emission_shape_scale = Vector3(0.13, 0.265, 0.13)
 emission_shape = 1
 emission_sphere_radius = 1.0
-gravity = Vector3(0, 2, 0)
+direction = Vector3(0, 1, 0)
+spread = 15.469
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0.5, 0)
 linear_accel_min = -3.68
 linear_accel_max = 2.94
 
@@ -152,7 +155,39 @@ shader_parameter/Texture2DParameter = SubResource("NoiseTexture2D_lpp1q")
 
 [sub_resource type="PrismMesh" id="PrismMesh_qi0yy"]
 material = SubResource("ShaderMaterial_06k2v")
-size = Vector3(0.395, 0.325, 0.07)
+size = Vector3(0.12, 0.215, 0.055)
+
+[sub_resource type="Gradient" id="Gradient_avimn"]
+colors = PackedColorArray(0, 0, 0, 1, 0.3, 0.3, 0.3, 0.380392)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fghde"]
+gradient = SubResource("Gradient_avimn")
+
+[sub_resource type="Curve" id="Curve_s40k3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.21978), -1.06787, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0o11v"]
+curve = SubResource("Curve_s40k3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3iegv"]
+emission_shape_scale = Vector3(0.915, 1, 0.35)
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(1, 7.24, 0)
+spread = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, -0.5, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_0o11v")
+color_ramp = SubResource("GradientTexture1D_fghde")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jebeh"]
+transparency = 1
+albedo_color = Color(0.13, 0.13, 0.13, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yviul"]
+material = SubResource("StandardMaterial3D_jebeh")
 
 [sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_2ag6q"]
 parameter_name = "ColorParameter"
@@ -186,7 +221,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-101, 158)
 nodes/fragment/0/position = Vector2(580, 120)
 nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_2ag6q")
 nodes/fragment/2/position = Vector2(60, 60)
@@ -204,6 +238,9 @@ shader_parameter/FloatParameter = 0.647
 material = SubResource("ShaderMaterial_24ix1")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_uoq4n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vw7t4"]
+albedo_color = Color(0.171398, 0.171398, 0.171398, 1)
 
 [sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_v1dlv"]
 parameter_name = "ColorParameter"
@@ -283,24 +320,17 @@ shader_parameter/Texture2DParameter = SubResource("NoiseTexture2D_4127d")
 [sub_resource type="SphereShape3D" id="SphereShape3D_wkgok"]
 radius = 0.993777
 
-[sub_resource type="Curve" id="Curve_ixyo1"]
-_data = [Vector2(0, 0.967033), 0.0, 1.4, 0, 0, Vector2(0.241525, 0.494505), -3.14914, -3.14914, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_7vfbh"]
-curve = SubResource("Curve_ixyo1")
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_augdv"]
 particle_flag_rotate_y = true
 emission_shape_scale = Vector3(0.28, 0.205, 0.39)
 emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
-gravity = Vector3(0, 1.5, 0)
-linear_accel_min = 0.499998
-linear_accel_max = 2.0
-scale_min = 0.5
-scale_max = 1.5
-scale_curve = SubResource("CurveTexture_7vfbh")
+angle_min = 1.07288e-05
+angle_max = 127.1
+direction = Vector3(0, 1, 0)
+spread = 2.813
+initial_velocity_min = 0.5
+initial_velocity_max = 5.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6oxc"]
 albedo_color = Color(0.24, 0.24, 0.24, 1)
@@ -312,35 +342,26 @@ size = Vector3(0.19, 0.14, 0.185)
 [node name="Main" type="Node3D"]
 script = ExtResource("1_t7i6o")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_24ix1")
+[node name="Map" parent="." instance=ExtResource("2_sjrqg")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
-use_collision = true
-
-[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.34382, 0)
-size = Vector3(30, 1.41236, 30)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
-operation = 2
-size = Vector3(29, 3.877, 29)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="DirectionalLight3D"]
+environment = SubResource("Environment_24ix1")
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.22773, -0.9385, -1.11927)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.536859, 3.81573, -8.18046)
 script = ExtResource("1_6cigd")
-Move_Speed = 5.0
+Move_Speed = 10.0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("CapsuleShape3D_u3pod")
 
 [node name="Node3D" type="Node3D" parent="Player"]
-transform = Transform3D(1, 1.60103e-08, 3.03763e-09, -1.60103e-08, 0.930507, 0.366274, 3.03763e-09, -0.366274, 0.930507, 0, 0.455142, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532609, -0.241483)
 
 [node name="Camera3D" type="Camera3D" parent="Player/Node3D"]
 
@@ -353,9 +374,10 @@ script = ExtResource("3_4nc0y")
 player = NodePath("../..")
 
 [node name="Furnace" type="CSGCombiner3D" parent="."]
-transform = Transform3D(0.0357368, 0, -0.999361, 0, 1, 0, 0.999361, 0, 0.0357368, 0, -1.24273, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.756342, 0)
 use_collision = true
 script = ExtResource("4_xxfmu")
+metadata/_edit_group_ = true
 
 [node name="Factory" type="CSGBox3D" parent="Furnace"]
 size = Vector3(3.38257, 1.52148, 1.86035)
@@ -377,27 +399,29 @@ collision_layer = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00539892, 0.0104603, -0.425127)
 shape = SubResource("BoxShape3D_kv0bm")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Furnace"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0192353, -0.266122, -0.537905)
+[node name="Fire" type="GPUParticles3D" parent="Furnace"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0192353, -0.0655174, -0.537905)
 emitting = false
 amount = 32
-lifetime = 0.5
-explosiveness = 0.48
+lifetime = 0.22
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_5g1pl")
 draw_pass_1 = SubResource("PrismMesh_qi0yy")
 
-[node name="Lever" parent="Furnace" instance=ExtResource("4_f864p")]
-transform = Transform3D(-0.6, 0, -9.12696e-08, 0, 0.6, 0, 9.12696e-08, 0, -0.6, -0.974191, 0.229158, -0.938274)
+[node name="Smoke" type="GPUParticles3D" parent="Furnace"]
+transform = Transform3D(1, 0, 3.72529e-09, 0, 1, 0, -3.72529e-09, 0, 1, -0.0137323, 2.75816, 0.384016)
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_3iegv")
+draw_pass_1 = SubResource("SphereMesh_yviul")
 
-[node name="AreaPlacer" type="Area3D" parent="Furnace" node_paths=PackedStringArray("instances")]
+[node name="AreaPlacer" type="Area3D" parent="Furnace" node_paths=PackedStringArray("instances", "heat_giver")]
 script = ExtResource("6_vvjpg")
 instances = NodePath("../Instances")
 scene = ExtResource("4_q3dbg")
+heat_giver = NodePath("..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Furnace/AreaPlacer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-visible = false
 mesh = SubResource("SphereMesh_8mud2")
 skeleton = NodePath("../..")
 
@@ -407,11 +431,44 @@ shape = SubResource("SphereShape3D_uoq4n")
 [node name="Instances" type="Node3D" parent="Furnace"]
 
 [node name="Label3D" type="Label3D" parent="Furnace"]
-transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, 1.29356, 0.58828, -0.994105)
-text = "test"
+transform = Transform3D(-1, 0, -8.9407e-08, 0, 1, 0, 8.9407e-08, 0, -1, -0.00514371, 0.777382, -1.04055)
+text = "Fuel:%s Temp:%s Radius:%s"
+
+[node name="Deco" type="Node3D" parent="Furnace"]
+transform = Transform3D(0.6, 0, 1.86265e-09, 0, 0.6, 0, -1.86265e-09, 0, 0.6, 0.0517708, -0.374745, -0.586193)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Furnace/Deco"]
+transform = Transform3D(0.999626, 0.0252697, 0.0104604, -0.0252698, 0.707107, 0.706655, 0.0104604, -0.706655, 0.707481, 0.00571379, 0, -0.159783)
+visible = false
+size = Vector3(0.2, 0.145508, 0.515625)
+material = SubResource("StandardMaterial3D_vw7t4")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Furnace/Deco"]
+transform = Transform3D(0.999627, -0.0252698, 0.0104604, 0.0252698, 0.707107, -0.706656, 0.0104604, 0.706656, 0.707482, -0.00622541, 0, 0.300089)
+visible = false
+size = Vector3(0.2, 0.145508, 0.515625)
+material = SubResource("StandardMaterial3D_vw7t4")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Furnace/Deco"]
+transform = Transform3D(-0.0104604, -0.706656, -0.707481, 0.0252697, 0.707107, -0.706655, 0.999627, -0.0252697, 0.0104604, -0.225979, 0, 0.0733733)
+visible = false
+size = Vector3(0.2, 0.145508, 0.515625)
+material = SubResource("StandardMaterial3D_vw7t4")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Furnace/Deco"]
+transform = Transform3D(0.017857, 0.865473, 0.500639, 0.030949, 0.5, -0.865473, -0.999362, 0.030949, -0.0178571, 0.193529, 0, 0.0629983)
+visible = false
+size = Vector3(0.2, 0.145508, 0.515625)
+material = SubResource("StandardMaterial3D_vw7t4")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Furnace/Deco"]
+transform = Transform3D(0.866026, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866026, -0.0823507, -0.165435, -0.0114241)
+visible = false
+size = Vector3(0.2, 0.145508, 0.515625)
+material = SubResource("StandardMaterial3D_vw7t4")
 
 [node name="ResourcePile" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.98015, -5.05485)
+transform = Transform3D(1, -9.5783e-05, -8.64004e-05, 9.58047e-05, 1, 0.000207518, 8.63765e-05, -0.000207527, 1, 13.8419, -0.0370097, 8.16548)
 script = ExtResource("3_gv1ur")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="ResourcePile"]
@@ -422,16 +479,16 @@ material = SubResource("ShaderMaterial_2bodo")
 shape = SubResource("SphereShape3D_wkgok")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="ResourcePile"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.921656, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92082, 0)
 emitting = false
 amount = 16
-preprocess = 17.17
+preprocess = 10.07
 explosiveness = 1.0
-fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_augdv")
 draw_pass_1 = SubResource("PrismMesh_tkc05")
 
-[node name="RigidBody3D" parent="." instance=ExtResource("4_q3dbg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.17613, 0, 0)
-
 [node name="Items" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 41.6678)
+
+[node name="Door" parent="." instance=ExtResource("9_dqqgt")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -20.033, 2, 0.798267)

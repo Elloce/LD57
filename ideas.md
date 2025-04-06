@@ -2,5 +2,8 @@
 
 # The Loop
 - bring items to the furnace for fuel
-- factory
-- furnace,manufacturer,press,
+- heat will turn on machines
+- keep furnace going
+
+# Todo
+- fix fuel deco in the furnace

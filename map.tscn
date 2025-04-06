@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://b6673pky7ahbj"]
+
+[node name="Map" type="CSGCombiner3D"]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.452881, 0, 0.0473633)
+size = Vector3(448, 14.97, 256)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+operation = 2
+size = Vector3(36.6416, 10, 25.2354)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.2003, 5, 25.8823)
+operation = 2
+size = Vector3(47, 10, 19)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1728, 5, -28.5117)
+operation = 2
+size = Vector3(48.1107, 10, 25.2354)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.0691, 5, 0.48835)
+operation = 2
+size = Vector3(25, 10, 38)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.6888, 5, -29.2717)
+operation = 2
+size = Vector3(40, 10, 26)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.6888, 5, 8.72831)
+operation = 2
+size = Vector3(22, 10, 52)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.1888, 5, -3.77169)
+operation = 2
+size = Vector3(23, 10, 77)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.1888, 5, 25.7312)
+operation = 2
+size = Vector3(23, 10, 17.9941)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.0204, 1.46507, 0.941963)
+operation = 2
+size = Vector3(4.50598, 3, 3)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.18422, 1.46507, 26.3117)
+operation = 2
+size = Vector3(4.50598, 3, 3)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.0772, 1.46507, 1.41965)
+operation = 2
+size = Vector3(6.84576, 3, 3)

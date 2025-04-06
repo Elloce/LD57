@@ -4,12 +4,18 @@ const MAX_INSTANCES: int = 100
 @export var instances: Node3D
 @export var scene: PackedScene
 @export var wait_time: float = 5
+@export var heat_giver: Node3D
 
 @onready var influence: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 
 var total_time: float
 var can_place: bool = false
+
+
+func _ready() -> void:
+	body_entered.connect(_body_entered)
+	body_exited.connect(_body_exited)
 
 
 func _process(delta: float) -> void:
@@ -60,5 +66,14 @@ func check_instances_within_sphere() -> void:
 		for instance in instances.get_children():
 			var distance: float = center.distance_to(instance.position)
 			if distance > radius:
-				#print(instance.name + " is outside the sphere.")
 				instance.queue_free()
+
+
+func _body_entered(body: Node3D) -> void:
+	if body.is_in_group("heat_accepter"):
+		body.furnace = heat_giver
+
+
+func _body_exited(body: Node3D) -> void:
+	if body.is_in_group("heat_accepter"):
+		body.furnace = null

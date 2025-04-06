@@ -6,7 +6,7 @@ signal dropped_item(item: Item)
 @export var Move_Speed: float = 1.5
 @export var Sprint_Speed: float = 10.0
 
-@export var PlayerInventory: Array[Dictionary] = []
+#@export var PlayerInventory: Array[Dictionary] = []
 
 @export_category("Inputs")
 # @export var UserInputForward : String = &"ui_up"

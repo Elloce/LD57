@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 		total_time = 0
 		particles.emitting = false
 		return
-	print(total_time)
+	#print(total_time)
 	if total_time >= worktime:
 		place_item()
 		total_time = 0
