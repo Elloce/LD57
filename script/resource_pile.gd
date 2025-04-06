@@ -1,13 +1,13 @@
 class_name ResourcePile extends StaticBody3D
 
-enum PileResource { ONE }
-
-@export var pile_resource: PileResource = PileResource.ONE
+@export_enum("0","1","2") var type: = "0"
 
 var doing = false
 var worktime: float = 2
 var total_time: float = 0
 var item = preload("res://item.tscn")
+var item_data: Dictionary
+
 @onready var particles: GPUParticles3D = $GPUParticles3D
 
 
@@ -29,6 +29,7 @@ func place_item() -> void:
 	add_child(it)
 	it.global_position.y += 2
 	it.freeze = false
+	it.setup(Game.game.items[int(type)])
 
 
 func do_action(doing: bool = true) -> void:

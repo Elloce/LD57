@@ -8,7 +8,7 @@ var obj
 func _physics_process(_delta: float) -> void:
 	var collider = self.get_collider()
 	if collider:
-		print(collider)
+		#print(collider)
 		if collider as ResourcePile:
 			obj = collider
 			if Input.is_action_pressed("m1"):
@@ -18,7 +18,10 @@ func _physics_process(_delta: float) -> void:
 		if collider as Item:
 			if Input.is_action_just_pressed("m1"):
 				if player.hands.get_children().is_empty():
-					player.add_item((collider as Item).duplicate())
+					var it:Item = (collider as Item).duplicate()
+					it.data = collider.data
+					#print(it)
+					player.add_item(it)
 					collider.queue_free()
 		if collider as Lever:
 			if Input.is_action_just_pressed("m1"):

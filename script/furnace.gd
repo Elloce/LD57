@@ -12,6 +12,7 @@ const MAX_FUEL: int = 5
 var items: Array
 var work_time: float = 0
 var temp: float
+var current_fuel:Item
 
 
 func _ready() -> void:
@@ -25,7 +26,10 @@ func _process(delta: float) -> void:
 	if not work_time > 0:
 		if not items.is_empty():
 			var it: Item = items.pop_back()
-			work_time += it.item_burn_time
+			current_fuel = it
+			current_fuel.data = it.data
+			print(current_fuel)
+			work_time += current_fuel.item_burn_time
 			#print("remove_fuel")
 			add_deco(false)
 			heat_area.can_place = true
@@ -35,7 +39,7 @@ func _process(delta: float) -> void:
 			temp = max(0, temp - 0.002)
 			heat_area.can_place = false
 			return
-	temp += 0.02
+	temp = clamp( temp+0.02,0,current_fuel.item_max_heat )#0.02
 	heat_area.change_influnce(0.2)
 	work_time -= delta
 
@@ -50,6 +54,7 @@ func _body_entered(body: Node3D) -> void:
 	if body as Item:
 		var item: Item = body
 		if items.size() < MAX_FUEL:
+			item.setup(body.data)
 			items.append(item.duplicate())
 			item.queue_free()
 			particles(true)

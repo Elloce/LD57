@@ -138,6 +138,7 @@ func Sprint() -> void:
 
 
 func add_item(item: Item) -> void:
-	var it = item
+	var it = item.duplicate()
+	it.data = item.data
 	hands.add_child(it)
 	it.global_position = hands.global_position
