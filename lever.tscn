@@ -1,0 +1,100 @@
+[gd_scene load_steps=9 format=3 uid="uid://bqdt0spt5r7e7"]
+
+[ext_resource type="Script" path="res://script/lever.gd" id="1_yifq2"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4mu4f"]
+points = PackedVector3Array(-0.24, -0.2425, -0.105, -0.24, -0.2425, 0.105, -0.24, 0.2425, -0.105, 0.24, -0.2425, -0.105, 0.24, -0.2425, 0.105, -0.24, 0.2425, 0.105, 0.24, 0.2425, -0.105, 0.24, 0.2425, 0.105)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dq0ce"]
+size = Vector3(0.48, 0.485, 0.21)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2r5ra"]
+radius = 0.0375
+height = 0.64
+
+[sub_resource type="SphereMesh" id="SphereMesh_xj6yt"]
+radius = 0.075
+height = 0.145
+
+[sub_resource type="Animation" id="Animation_r6get"]
+resource_name = "new_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lever:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.111806, 0.196563), Vector3(0, -0.140342, 0.196563)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Lever:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.779446, 0, 0), Vector3(2.32179, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ns5nu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lever:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.111806, 0.196563)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Lever:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.779446, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_imq8t"]
+_data = {
+"RESET": SubResource("Animation_ns5nu"),
+"new_animation": SubResource("Animation_r6get")
+}
+
+[node name="StaticBody3D" type="StaticBody3D"]
+script = ExtResource("1_yifq2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_4mu4f")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_dq0ce")
+
+[node name="Lever" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 0.711303, -0.702886, 0, 0.702886, 0.711303, 0, 0.111806, 0.196563)
+mesh = SubResource("CapsuleMesh_2r5ra")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body/Lever"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.307451, -1.34391e-08)
+mesh = SubResource("SphereMesh_xj6yt")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
+libraries = {
+"": SubResource("AnimationLibrary_imq8t")
+}
