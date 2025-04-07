@@ -80,9 +80,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("action"):
 		if held_Item:
 			var item: Item = held_Item
-			item.following = null
-			item.freeze = false
-			item.sleeping = false
+			item.drop()
 			held_Item = null
 			print(item.freeze)
 
@@ -142,8 +140,7 @@ func Sprint() -> void:
 
 
 func pickup(item: Item) -> void:
+#	if not held_Item:
+	print(item)
+	item.pickup(hands)
 	held_Item = item
-	held_Item.following = hands
-	held_Item.global_position = hands.global_position
-	held_Item.rotation = Vector3.ZERO
-	held_Item.freeze = true

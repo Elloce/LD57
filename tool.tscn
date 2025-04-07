@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnitk64c5n7ca"]
+
+[ext_resource type="PackedScene" uid="uid://yamay61lfjvy" path="res://pickup_comp.tscn" id="1_h11ib"]
+[ext_resource type="Script" path="res://script/item.gd" id="1_n1fjc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6r5mt"]
+albedo_color = Color(0.305446, 0.305446, 0.305446, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dll54"]
+size = Vector3(0.138428, 0.892334, 0.143555)
+
+[node name="Tool" type="RigidBody3D" node_paths=PackedStringArray("colored")]
+script = ExtResource("1_n1fjc")
+colored = NodePath("CSGCylinder3D/CSGBox3D")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+radius = 0.0184699
+height = 0.281425
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.126194, 0.013498)
+size = Vector3(0.0439453, 0.00878906, 0.0727539)
+material = SubResource("StandardMaterial3D_6r5mt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_dll54")
+
+[node name="PickupComp" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("1_h11ib")]
+parent = NodePath("..")

@@ -1,22 +1,29 @@
 class_name Item extends RigidBody3D
 
-var item_name: String = "item"
-var following: Node3D
+@export var colored: CSGShape3D
 
-@onready var csg_box_3d: CSGBox3D = $CSGBox3D
+@onready var pickup_comp: Node3D = $PickupComp
+
 var data: Dictionary
 
 
-func _process(delta: float) -> void:
-	if following:
-		global_position = following.global_position
+func pickup(node: Node3D) -> void:
+	pickup_comp.following = node
+	global_rotation = node.global_rotation
+	freeze = true
+
+
+func drop() -> void:
+	pickup_comp.following = null
+	freeze = false
+	sleeping = false
 
 
 func setup(_data: Dictionary, position: Vector3) -> void:
 	data = _data
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
 	mat.albedo_color = data.color
-	csg_box_3d.material = mat.duplicate()
+	colored.material = mat.duplicate()
 	global_position = position
 
 

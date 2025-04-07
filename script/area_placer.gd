@@ -31,8 +31,8 @@ func _process(delta: float) -> void:
 
 func change_influnce(val: float) -> void:
 	var rad: float = (influence.shape as SphereShape3D).radius
-	mesh_instance_3d.mesh.radius = max(0.5, rad + val)
-	influence.shape.radius = max(0.5, rad + val)
+	mesh_instance_3d.mesh.radius = val
+	influence.shape.radius = val
 
 
 func place_scenes_randomly() -> void:
@@ -49,7 +49,7 @@ func place_scenes_randomly() -> void:
 	)
 
 	# Instantiate the scene
-	var instance: Item = preload("res://item.tscn").instantiate()
+	var instance = preload("res://grass.tscn").instantiate()
 	instances.add_child(instance)
 
 	# Set the position of the instance

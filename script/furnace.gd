@@ -12,6 +12,7 @@ const MAX_FUEL: int = 5
 var items: Array
 var work_time: float = 0
 var temp: float
+var radius: float
 var current_fuel: Dictionary
 
 
@@ -31,12 +32,14 @@ func _process(delta: float) -> void:
 			heat_area.can_place = true
 		else:
 			particles(false)
-			heat_area.change_influnce(-0.002)
 			temp = max(0, temp - 0.002)
+			radius = max(0, radius - 0.002)
+			heat_area.change_influnce(radius)
 			heat_area.can_place = false
 			return
-	temp = clamp(temp + 0.02, 0, current_fuel.max_heat)  #0.02
-	heat_area.change_influnce(0.02)
+	temp = clamp(temp + 0.005, 0, current_fuel.max_heat)  #0.02
+	radius = clamp(radius + 0.005, 0, current_fuel.max_radius)  #0.02
+	heat_area.change_influnce(radius)
 	work_time -= delta
 
 

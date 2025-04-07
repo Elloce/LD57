@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bthaby2mladi3"]
+[gd_scene load_steps=45 format=3 uid="uid://bthaby2mladi3"]
 
 [ext_resource type="Script" path="res://script/character_body_3d.gd" id="1_6cigd"]
 [ext_resource type="Script" path="res://script/main.gd" id="1_t7i6o"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://script/area_placer.gd" id="6_vvjpg"]
 [ext_resource type="PackedScene" uid="uid://c7u8oxjwcrdsr" path="res://resource_pile.tscn" id="8_ng7p5"]
 [ext_resource type="PackedScene" uid="uid://ktc2h6ti7747" path="res://door.tscn" id="9_dqqgt"]
+[ext_resource type="PackedScene" uid="uid://dnitk64c5n7ca" path="res://tool.tscn" id="10_dl50a"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1pfqr"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -269,7 +270,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532609, -0.241483)
 [node name="Camera3D" type="Camera3D" parent="Player/Node3D"]
 
 [node name="Marker3D" type="Marker3D" parent="Player/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 0.7694, -0.638768, 0, 0.638768, 0.7694, 0, -0.173173, -1.21835)
+transform = Transform3D(-1, 4.37114e-08, 7.57104e-08, 0, 0.866026, -0.5, -8.74228e-08, -0.5, -0.866026, 0, -0.173173, -1.21835)
 
 [node name="RayCast3D" type="RayCast3D" parent="Player/Node3D" node_paths=PackedStringArray("player")]
 target_position = Vector3(0, 0, -2)
@@ -322,9 +323,11 @@ draw_pass_1 = SubResource("SphereMesh_yviul")
 script = ExtResource("6_vvjpg")
 instances = NodePath("../Instances")
 scene = ExtResource("4_q3dbg")
+wait_time = 2.0
 heat_giver = NodePath("..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Furnace/AreaPlacer"]
+visible = false
 mesh = SubResource("SphereMesh_8mud2")
 skeleton = NodePath("../..")
 
@@ -385,3 +388,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 41.6678)
 
 [node name="Door" parent="." instance=ExtResource("9_dqqgt")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -20.033, 2, 0.798267)
+
+[node name="Door2" parent="." instance=ExtResource("9_dqqgt")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.966999, 2, 26.7983)
+heat_needed = 64.0
+
+[node name="Door3" parent="." instance=ExtResource("9_dqqgt")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 43.967, 2, 1.58431)
+heat_needed = 128.0
+
+[node name="Tool" parent="." instance=ExtResource("10_dl50a")]
+transform = Transform3D(1, 1.06581e-14, 1.42108e-14, 0, 0.866025, -0.5, -2.13163e-14, 0.5, 0.866025, 0.536859, 4.17517, -6.72063)
