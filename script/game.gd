@@ -1,5 +1,7 @@
 extends Node
 
+signal item_created(item: Dictionary, position: Vector3)
+
 const game: Dictionary = {
 	items =
 	{

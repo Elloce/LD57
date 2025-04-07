@@ -18,11 +18,7 @@ func _physics_process(_delta: float) -> void:
 		if collider as Item:
 			if Input.is_action_just_pressed("m1"):
 				if player.hands.get_children().is_empty():
-					var it:Item = (collider as Item).duplicate()
-					it.data = collider.data
-					#print(it)
-					player.add_item(it)
-					collider.queue_free()
+					player.pickup(collider)
 		if collider as Lever:
 			if Input.is_action_just_pressed("m1"):
 				collider.interact()

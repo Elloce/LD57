@@ -9,7 +9,7 @@ albedo_color = Color(0.171398, 0.171398, 0.171398, 1)
 size = Vector3(0.164307, 0.126709, 0.43457)
 
 [node name="RigidBody3D" type="RigidBody3D"]
-gravity_scale = 0.5
+mass = 0.5
 continuous_cd = true
 script = ExtResource("1_6b0fk")
 

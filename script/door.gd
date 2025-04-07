@@ -12,6 +12,6 @@ func _process(_delta: float) -> void:
 		return
 	heat = furnace.temp
 	#print(heat)
-	if  locked and heat >= heat_needed:
+	if locked and heat >= heat_needed:
 		animation.play("open")
 		locked = false

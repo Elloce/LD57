@@ -1,0 +1,120 @@
+[gd_scene load_steps=15 format=3 uid="uid://c7u8oxjwcrdsr"]
+
+[ext_resource type="Script" path="res://script/resource_pile.gd" id="1_fmbme"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_v1dlv"]
+parameter_name = "ColorParameter"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_fkxn4"]
+parameter_name = "ColorParameter2"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_ap102"]
+parameter_name = "Texture2DParameter"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_tj6fx"]
+source = 5
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_s5fy0"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShader" id="VisualShader_ftulp"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform vec4 ColorParameter2 : source_color;
+uniform vec4 ColorParameter : source_color;
+uniform sampler2D Texture2DParameter;
+
+
+
+void fragment() {
+// ColorParameter:3
+	vec4 n_out3p0 = ColorParameter2;
+
+
+// ColorParameter:2
+	vec4 n_out2p0 = ColorParameter;
+
+
+	vec4 n_out5p0;
+// Texture2D:5
+	n_out5p0 = texture(Texture2DParameter, UV);
+
+
+// Mix:6
+	vec3 n_out6p0 = mix(vec3(n_out3p0.xyz), vec3(n_out2p0.xyz), vec3(n_out5p0.xyz));
+
+
+// Output:0
+	ALBEDO = n_out6p0;
+
+
+}
+"
+nodes/fragment/0/position = Vector2(560, 160)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_v1dlv")
+nodes/fragment/2/position = Vector2(-60, 380)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorParameter_fkxn4")
+nodes/fragment/3/position = Vector2(240, 380)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture2DParameter_ap102")
+nodes/fragment/4/position = Vector2(-400, 180)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_tj6fx")
+nodes/fragment/5/position = Vector2(-60, 180)
+nodes/fragment/6/node = SubResource("VisualShaderNodeMix_s5fy0")
+nodes/fragment/6/position = Vector2(280, 140)
+nodes/fragment/connections = PackedInt32Array(4, 0, 5, 2, 6, 0, 0, 0, 5, 0, 6, 2, 2, 0, 6, 1, 3, 0, 6, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_juhcg"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4127d"]
+noise = SubResource("FastNoiseLite_juhcg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2bodo"]
+render_priority = 0
+shader = SubResource("VisualShader_ftulp")
+shader_parameter/ColorParameter2 = Color(0.1419, 0.33, 0.15444, 1)
+shader_parameter/ColorParameter = Color(0.36, 0.1824, 0.072, 1)
+shader_parameter/Texture2DParameter = SubResource("NoiseTexture2D_4127d")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wkgok"]
+radius = 0.993777
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_augdv"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(0.28, 0.205, 0.39)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = 1.07288e-05
+angle_max = 127.1
+direction = Vector3(0, 1, 0)
+spread = 2.813
+initial_velocity_min = 0.5
+initial_velocity_max = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6oxc"]
+albedo_color = Color(0.24, 0.24, 0.24, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_tkc05"]
+material = SubResource("StandardMaterial3D_d6oxc")
+size = Vector3(0.19, 0.14, 0.185)
+
+[node name="ResourcePile" type="StaticBody3D"]
+transform = Transform3D(1, -9.5783e-05, -8.64004e-05, 9.58047e-05, 1, 0.000207518, 8.63765e-05, -0.000207527, 1, 13.8419, -0.0370097, 8.16548)
+script = ExtResource("1_fmbme")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+radius = 0.952415
+material = SubResource("ShaderMaterial_2bodo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_wkgok")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.92082, 0)
+emitting = false
+amount = 16
+preprocess = 10.07
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_augdv")
+draw_pass_1 = SubResource("PrismMesh_tkc05")

@@ -1,17 +1,24 @@
 class_name Item extends RigidBody3D
 
 var item_name: String = "item"
-var item_burn_time: float #= 20.0
-var item_heat_rate: float #= 0.002
-var item_max_heat: float #= 0.002
+var following: Node3D
 
 @onready var csg_box_3d: CSGBox3D = $CSGBox3D
-var data:Dictionary
-func setup(_data:Dictionary)->void:
+var data: Dictionary
+
+
+func _process(delta: float) -> void:
+	if following:
+		global_position = following.global_position
+
+
+func setup(_data: Dictionary, position: Vector3) -> void:
 	data = _data
-	item_burn_time = data.burn_time
-	item_max_heat = data.max_heat
-	csg_box_3d.material.set("Albedo",data.color)
+	var mat: StandardMaterial3D = StandardMaterial3D.new()
+	mat.albedo_color = data.color
+	csg_box_3d.material = mat.duplicate()
+	global_position = position
+
 
 func _to_string() -> String:
 	return "%s" % [data]

@@ -1,7 +1,5 @@
 class_name Player extends CharacterBody3D
 
-signal dropped_item(item: Item)
-
 @export_category("Player Settings")
 @export var Move_Speed: float = 1.5
 @export var Sprint_Speed: float = 10.0
@@ -51,6 +49,8 @@ var _isMouseCaptured: bool = true
 
 const JUMP_VELOCITY: float = 4.5
 
+var held_Item: Item
+
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -77,10 +77,14 @@ func _process(delta: float) -> void:
 	head.rotation.x = clamp(head.rotation.x, -1.5, 1.5)
 	Camera_Inp = Vector2.ZERO
 
-	if Input.is_action_just_pressed("m2"):
-		if not hands.get_children().is_empty():
-			dropped_item.emit(hands.get_child(0).duplicate())
-			hands.get_child(0).queue_free()
+	if Input.is_action_just_pressed("action"):
+		if held_Item:
+			var item: Item = held_Item
+			item.following = null
+			item.freeze = false
+			item.sleeping = false
+			held_Item = null
+			print(item.freeze)
 
 	#camera_tilt(delta)
 
@@ -137,8 +141,9 @@ func Sprint() -> void:
 #camera.rotation.z = lerp_angle(camera.rotation.z, 0 , min(delta * 5.0,1.0))
 
 
-func add_item(item: Item) -> void:
-	var it = item.duplicate()
-	it.data = item.data
-	hands.add_child(it)
-	it.global_position = hands.global_position
+func pickup(item: Item) -> void:
+	held_Item = item
+	held_Item.following = hands
+	held_Item.global_position = hands.global_position
+	held_Item.rotation = Vector3.ZERO
+	held_Item.freeze = true

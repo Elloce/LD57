@@ -1,6 +1,6 @@
 class_name ResourcePile extends StaticBody3D
 
-@export_enum("0","1","2") var type: = "0"
+@export_enum("0", "1", "2") var type: String = "0"
 
 var doing = false
 var worktime: float = 2
@@ -25,11 +25,12 @@ func _process(delta: float) -> void:
 
 
 func place_item() -> void:
-	var it = item.instantiate()
-	add_child(it)
-	it.global_position.y += 2
-	it.freeze = false
-	it.setup(Game.game.items[int(type)])
+	#var it = item.instantiate()
+	#add_child(it)
+	#it.global_position.y += 2
+	#it.freeze = false
+	#it.setup(Game.game.items[int(type)])
+	Game.item_created.emit(Game.game.items[int(type)], global_position + Vector3(0, 2, 0))
 
 
 func do_action(doing: bool = true) -> void:
